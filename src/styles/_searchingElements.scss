@@ -1,0 +1,31 @@
+/* Author: Sebastian Aguirre Duque
+E-mail: sadw621@gmail.com */
+
+
+.search_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.chuck_search {
+  display: flex;
+  flex-direction: column;
+  @include center-elements;
+  width: 30rem;
+  margin-top: 1.5rem;
+  padding: .5rem;
+  border-top: 2px solid rgb(1,122,155);
+}
+
+.buttons_container {
+  display: flex;
+  flex-direction: row;
+  @include center-elements;
+  gap: wrap;
+  border-top: 2px solid rgb(1,122,155);
+  margin-top: 1.5rem;
+  padding: .8rem;
+}
