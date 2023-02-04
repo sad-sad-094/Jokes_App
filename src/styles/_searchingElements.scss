@@ -29,3 +29,11 @@ E-mail: sadw621@gmail.com */
   margin-top: 1.5rem;
   padding: .8rem;
 }
+
+.categories_container {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: .5rem;
+  margin: 1rem 0;
+  border-top: 2px solid rgb(1,122,155);
+  padding-top: 1rem;
+}
