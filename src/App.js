@@ -11,7 +11,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { cyan } from '@mui/material/colors';
-// import TextField from '@mui/material/TextField';
 import axios from 'axios';
 
 import './styles/Main.scss';
@@ -30,7 +29,17 @@ function App() {
   const [hiddenSeeCategories, setHiddenSeeCategories] = useState('hide');
 
   const [keyword, setKeyword] = useState({ keyword: '' });
-  const [dadJoke, setDadJoke] = useState({});
+  // const [jokes, setJokes] = useState([]);
+
+  const chuck = 'Chuck Norris';
+  const dad = 'Dad Joke';
+  let jokesList = [];
+  let chuckCats = [];
+
+  const writeJokes = (joke, source) => {
+    jokesList.push({ source: source, joke: joke });
+    console.log(jokesList);
+  }
 
   const getDadJoke = () => {
 
@@ -42,8 +51,9 @@ function App() {
 
     axios.request(options)
       .then((response) => {
-        setDadJoke(response.data);
-        console.log(response.data.joke); //TODO delete console log
+        let joke = response.data.joke;
+        let source = dad;
+        writeJokes(joke, source);
       })
       .catch((error) => {
         console.error(error);
@@ -55,7 +65,9 @@ function App() {
 
     axios.get(chuck_API_URL + randomRequest)
       .then((response) => {
-        console.log(response.data.value);
+        let joke = response.data.value;
+        let source = chuck;
+        writeJokes(joke, source);
       })
       .catch((error) => {
         console.error(error);
@@ -67,7 +79,8 @@ function App() {
 
     axios.get(chuck_API_URL + categoriesRequest)
       .then((response) => {
-        console.log(response.data);
+        chuckCats = response.data;
+        console.log(chuckCats);
       })
       .catch((error) => {
         console.error(error);
@@ -148,8 +161,7 @@ function App() {
                   onChange={getKeyword} />
 
                 <FormHelperText id="my-helper-text">Please enter a keyword</FormHelperText>
-                {/* <TextField id="outlined-basic" label="Search a joke" variant="outlined" size="normal"
-            margin="dense" helperText="Please enter a keyword" /> */}
+
                 <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                   setHiddenFreeSearch('hide')
                   getFreeChuck()
@@ -168,27 +180,17 @@ function App() {
                 <RadioGroup
                   row
                   aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="row-radio-buttons-group"
-                >
+                  name="row-radio-buttons-group">
 
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="animal" control={<Radio />} label="Animal" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="career" control={<Radio />} label="Career" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="Celebrity" control={<Radio />} label="Celebrity" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="dev" control={<Radio />} label="Dev" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="explicit" control={<Radio />} label="Explicit" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="fashion" control={<Radio />} label="Fashion" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="food" control={<Radio />} label="Food" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="fistory" control={<Radio />} label="History" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="money" control={<Radio />} label="Money" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="movie" control={<Radio />} label="Movie" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="music" control={<Radio />} label="Music" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="political" control={<Radio />} label="Political" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="religion" control={<Radio />} label="Religion" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="science" control={<Radio />} label="Science" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="sport" control={<Radio />} label="Sport" />
-                  <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value="travel" control={<Radio />} label="Travel" />
+                  {chuckCats.map((category, index, chuckCats) => {
+                    return (
+                      <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value={category} control={<Radio />} label={category} />
+                    )
+                  })
+                  }
 
                 </RadioGroup>
+
 
                 <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => { setHiddenSeeCategories('hide') }}>Search</Button>
               </div>
