@@ -2,52 +2,29 @@
 E-mail: sadw621@gmail.com */
 
 import React from 'react';
-import { Typography } from '@mui/material';
 
-function Cards() {
+function Cards(props) {
+
+  console.log(props.list);
 
   return (
 
     <div className="cards_container">
-          <div className="card">
-            <div className="card_header">
-              <h3>Source</h3>
-            </div>
-            <div className="card_body">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit in diam</p>
-            </div>
-          </div>
 
+      {props.list.map((joke, index) => {
+        return (
           <div className="card">
             <div className="card_header">
-              <h3>Source</h3>
+              <h3>{joke.source}</h3>
             </div>
             <div className="card_body">
-              <p>Joke</p>
+              <p>{joke.joke}</p>
             </div>
           </div>
+        )
+      })}
 
-          <div className="card">
-            <div className="card_header">
-              <h3>Source</h3>
-            </div>
-            <div className="card_body">
-              <p>Joke</p>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="card_header">
-              <h3>Source</h3>
-            </div>
-            <div className="card_body">
-              <p>Joke</p>
-            </div>
-          </div>
-          <Typography variant='h1'>
-            Hello, world!
-          </Typography>
-        </div>
+    </div>
 
   )
 

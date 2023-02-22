@@ -19,7 +19,8 @@ import { Responsive } from './styles/MediaQuery';
 import Modal from './components/Modal';
 import Cards from './components/Cards';
 import { dad_API_Header, dad_API_URL } from './utils/DadJokesAPI';
-import { categoriesRequest, chuck_API_URL, freeRequest, randomRequest } from './utils/ChuckNorrisAPI';
+import { byCategoryRequest, categoriesRequest, chuck_API_URL, freeRequest, randomRequest } from './utils/ChuckNorrisAPI';
+import Spinner from './components/Spinner';
 
 
 function App() {
@@ -29,15 +30,18 @@ function App() {
   const [hiddenSeeCategories, setHiddenSeeCategories] = useState('hide');
 
   const [keyword, setKeyword] = useState({ keyword: '' });
-  // const [jokes, setJokes] = useState([]);
+  const [categoryRequest, setCategoryRequest] = useState('');
+  const [jokesList, setJokesList] = useState([]);
+  const [chuckCats, setChuckCats] = useState([]);
 
   const chuck = 'Chuck Norris';
   const dad = 'Dad Joke';
-  let jokesList = [];
-  let chuckCats = [];
 
   const writeJokes = (joke, source) => {
-    jokesList.push({ source: source, joke: joke });
+    setJokesList([
+      ...jokesList,
+      {joke, source},
+    ])
     console.log(jokesList);
   }
 
@@ -51,9 +55,7 @@ function App() {
 
     axios.request(options)
       .then((response) => {
-        let joke = response.data.joke;
-        let source = dad;
-        writeJokes(joke, source);
+        writeJokes(response.data.joke, dad);
       })
       .catch((error) => {
         console.error(error);
@@ -65,9 +67,7 @@ function App() {
 
     axios.get(chuck_API_URL + randomRequest)
       .then((response) => {
-        let joke = response.data.value;
-        let source = chuck;
-        writeJokes(joke, source);
+        writeJokes(response.data.value, chuck);
       })
       .catch((error) => {
         console.error(error);
@@ -79,13 +79,33 @@ function App() {
 
     axios.get(chuck_API_URL + categoriesRequest)
       .then((response) => {
-        chuckCats = response.data;
-        console.log(chuckCats);
+        setChuckCats(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
 
+  }
+
+  const getCategoryRequest = (event) => {
+    event.preventDefault();
+    setCategoryRequest({
+      ...categoryRequest,
+      [event.target.name]: event.target.value,
+    })
+    console.log(categoryRequest);
+  }
+
+  const getByCategory = () => {
+
+    axios.get(`${chuck_API_URL}${byCategoryRequest}${categoryRequest}`)
+      .then((response) => {
+        writeJokes(response.data.value, chuck);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   const getKeyword = (event) => {
@@ -100,7 +120,7 @@ function App() {
 
     axios.get(`${chuck_API_URL}${freeRequest}${keyword.keyword}`)
       .then((response) => {
-        console.log(response.data);
+        writeJokes(response.data.value, chuck);
       })
       .catch((error) => {
         console.error(error);
@@ -137,6 +157,7 @@ function App() {
                 setHiddenSeeCategories('show')
                 getCategoriesChuck()
               }}>See Categories</Button>
+              {/* <Spinner /> */}
               <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                 setHiddenOption('hide')
                 setHiddenFreeSearch('show')
@@ -184,7 +205,7 @@ function App() {
 
                   {chuckCats.map((category, index, chuckCats) => {
                     return (
-                      <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" value={category} control={<Radio />} label={category} />
+                      <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" name={category} value={category} label={category} control={<Radio />} onChange={getCategoryRequest} />
                     )
                   })
                   }
@@ -192,15 +213,18 @@ function App() {
                 </RadioGroup>
 
 
-                <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => { setHiddenSeeCategories('hide') }}>Search</Button>
+                <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
+                  setHiddenSeeCategories('hide')
+                  getByCategory()
+                }}>Search</Button>
               </div>
 
             </FormControl>
           </div>
 
         </div>
-
-        <Cards />
+        
+        <Cards list={jokesList} />
 
       </Responsive>
     </ThemeProvider>
