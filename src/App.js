@@ -11,6 +11,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { cyan } from '@mui/material/colors';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 
 import './styles/Main.scss';
@@ -21,6 +23,7 @@ import Cards from './components/Cards';
 import { dad_API_Header, dad_API_URL } from './utils/DadJokesAPI';
 import { byCategoryRequest, categoriesRequest, chuck_API_URL, freeRequest, randomRequest } from './utils/ChuckNorrisAPI';
 import Spinner from './components/Spinner';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -28,6 +31,14 @@ function App() {
   const [hiddenOption, setHiddenOption] = useState('hide');
   const [hiddenFreeSearch, setHiddenFreeSearch] = useState('hide');
   const [hiddenSeeCategories, setHiddenSeeCategories] = useState('hide');
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   const [keyword, setKeyword] = useState({ keyword: '' });
   const [categoryRequest, setCategoryRequest] = useState('');
@@ -40,9 +51,8 @@ function App() {
   const writeJokes = (joke, source) => {
     setJokesList([
       ...jokesList,
-      {joke, source},
+      { joke, source },
     ])
-    console.log(jokesList);
   }
 
   const getDadJoke = () => {
@@ -77,23 +87,22 @@ function App() {
 
   const getCategoriesChuck = () => {
 
+    // setOpen(true);
     axios.get(chuck_API_URL + categoriesRequest)
       .then((response) => {
         setChuckCats(response.data);
+        setOpen(false);
       })
       .catch((error) => {
         console.error(error);
+        setOpen(false);
       });
 
   }
 
   const getCategoryRequest = (event) => {
     event.preventDefault();
-    setCategoryRequest({
-      ...categoryRequest,
-      [event.target.name]: event.target.value,
-    })
-    console.log(categoryRequest);
+    setCategoryRequest(event.target.value)
   }
 
   const getByCategory = () => {
@@ -101,7 +110,6 @@ function App() {
     axios.get(`${chuck_API_URL}${byCategoryRequest}${categoryRequest}`)
       .then((response) => {
         writeJokes(response.data.value, chuck);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -120,7 +128,9 @@ function App() {
 
     axios.get(`${chuck_API_URL}${freeRequest}${keyword.keyword}`)
       .then((response) => {
-        writeJokes(response.data.value, chuck);
+        let list = response.data.result;
+        let selected = Math.floor(Math.random() * list.length);
+        writeJokes(list[selected].value, chuck);
       })
       .catch((error) => {
         console.error(error);
@@ -131,7 +141,7 @@ function App() {
   return (
 
     <ThemeProvider theme={theme}>
-      <Responsive>
+      <Responsive style={{marginBottom: '3rem'}}>
 
         <div className="search_container">
 
@@ -147,22 +157,37 @@ function App() {
           </Box>
 
           <div className={hiddenOption}>
+
             <Box sx={{ '& button': { m: 1 } }} className="buttons_container" >
+
               <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                 setHiddenOption('hide')
                 getRandomChuck()
               }}>Random Search</Button>
+
               <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                 setHiddenOption('hide')
                 setHiddenSeeCategories('show')
                 getCategoriesChuck()
+                handleToggle()
               }}>See Categories</Button>
+
               {/* <Spinner /> */}
+              <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={open}
+                onClick={handleClose}
+                transitionDuration={{ appear: 2000, enter: 1000, exit: 500 }}>
+                <CircularProgress color="inherit" />
+              </Backdrop>
+
               <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                 setHiddenOption('hide')
                 setHiddenFreeSearch('show')
               }}>Free Search</Button>
+
             </Box>
+
           </div>
 
           <div className={hiddenFreeSearch}>
@@ -223,11 +248,16 @@ function App() {
           </div>
 
         </div>
-        
+
         <Cards list={jokesList} />
 
       </Responsive>
+
+      <Footer />
+
     </ThemeProvider>
+
+
 
   );
 
