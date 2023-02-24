@@ -5,8 +5,6 @@ import React from 'react';
 
 function Cards(props) {
 
-  console.log(props.list);
-
   return (
 
     <div className="cards_container">
