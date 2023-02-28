@@ -134,7 +134,7 @@ function App() {
 
           <Modal />
 
-          <Typography id="headerTittle" variant="h6">Please select a Chuck Norris or Dad joke.</Typography>
+          <Typography id="headerTittle" variant="h6" sx={{ textAlign: 'center' }}>Please select a Chuck Norris or Dad joke.</Typography>
 
           <Box sx={{ '& button': { m: 1 } }}>
 
