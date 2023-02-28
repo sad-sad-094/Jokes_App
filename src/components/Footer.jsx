@@ -19,8 +19,8 @@ function Footer() {
     <>
 
       <div>
-        <div className="footer">
-          <div>
+        <div id="footer" className="footer">
+          <div id="pageAuthor">
             <h1>Sebastian Aguirre Duque</h1>
           </div>
           <div>

@@ -128,37 +128,37 @@ function App() {
 
     <ThemeProvider theme={theme}>
 
-      <Responsive style={{marginBottom: '3rem'}}>
+      <Responsive style={{ marginBottom: '3rem' }}>
 
-        <div className="search_container">
+        <div id="searchMethods" className="search_container">
 
           <Modal />
 
-          <Typography variant="h6">Please select a Chuck Norris or Dad joke.</Typography>
+          <Typography id="headerTittle" variant="h6">Please select a Chuck Norris or Dad joke.</Typography>
 
           <Box sx={{ '& button': { m: 1 } }}>
 
-            <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} className="buttons" onClick={() => { setHiddenOption('show') }}>Chuck Norris</Button>
-            <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => { getDadJoke() }}>Dad Joke</Button>
+            <Button id="chuckRequest" size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} className="buttons" onClick={() => { setHiddenOption('show') }}>Chuck Norris</Button>
+            <Button id="dadRequest" size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => { getDadJoke() }}>Dad Joke</Button>
 
           </Box>
 
-          <div className={hiddenOption}>
+          <div id="chuckMethods" className={hiddenOption}>
 
             <Box sx={{ '& button': { m: 1 } }} className="buttons_container" >
 
-              <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
+              <Button id="random" size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                 setHiddenOption('hide')
                 getRandomChuck()
               }}>Random Search</Button>
 
-              <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
+              <Button id="seeCategories" size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                 setHiddenOption('hide')
                 setHiddenSeeCategories('show')
                 getCategoriesChuck()
               }}>See Categories</Button>
 
-              <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
+              <Button id="keywordSearch" size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                 setHiddenOption('hide')
                 setHiddenFreeSearch('show')
               }}>Free Search</Button>
@@ -170,7 +170,7 @@ function App() {
           <div className={hiddenFreeSearch}>
             <Box sx={{ '& button': { m: 1 } }} component="form" noValidate autoComplete="on">
 
-              <div className="chuck_search">
+              <div id="keywordSearch" className="chuck_search">
                 <InputLabel htmlFor="my-input">Search a joke</InputLabel>
 
                 <Input
@@ -183,9 +183,9 @@ function App() {
                   label="keyword"
                   onChange={getKeyword} />
 
-                <FormHelperText id="my-helper-text">Please enter a keyword</FormHelperText>
+                <FormHelperText id="searchHelper">Please enter a keyword</FormHelperText>
 
-                <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
+                <Button id="keywordSearchButton" size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                   setHiddenFreeSearch('hide')
                   getFreeChuck()
                 }}>Search</Button>
@@ -197,17 +197,18 @@ function App() {
           <div className={hiddenSeeCategories}>
             <FormControl>
 
-              <div className="categories_container">
+              <div id="categoriesSearch" className="categories_container">
                 <FormLabel>Categories</FormLabel>
 
                 <RadioGroup
+                  id="categories"
                   row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="row-radio-buttons-group">
+                  aria-labelledby="categoriesRadioButtons-label"
+                  name="categoriesRadioButtons">
 
                   {chuckCats.map((category, index, chuckCats) => {
                     return (
-                      <FormControlLabel sx={{ margin: '.5rem' }} labelPlacement="top" name={category} value={category} label={category} control={<Radio />} onChange={getCategoryRequest} />
+                      <FormControlLabel id={`${category}Option`} sx={{ margin: '.5rem' }} labelPlacement="top" name={category} value={category} label={category} control={<Radio />} onChange={getCategoryRequest} />
                     )
                   })
                   }
@@ -215,7 +216,7 @@ function App() {
                 </RadioGroup>
 
 
-                <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
+                <Button id="categorySearchButton" size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                   setHiddenSeeCategories('hide')
                   getByCategory()
                 }}>Search</Button>

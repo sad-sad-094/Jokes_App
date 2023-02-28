@@ -11,12 +11,12 @@ function Cards(props) {
 
       {props.list.map((joke, index) => {
         return (
-          <div className="card">
-            <div className="card_header">
-              <h3>{joke.source}</h3>
+          <div id="card" className="card">
+            <div id="cardHeader" className="card_header">
+              <h3 id="jokeSource">{joke.source}</h3>
             </div>
-            <div className="card_body">
-              <p>{joke.joke}</p>
+            <div id="cardBody" className="card_body">
+              <p id="joke">{joke.joke}</p>
             </div>
           </div>
         )
