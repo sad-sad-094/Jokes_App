@@ -28,5 +28,5 @@ yarn start
 command to run the app with _localhost_.
 
 ## Deploy link:
-
+get-your-joke.vercel.app
 
