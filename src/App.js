@@ -22,7 +22,6 @@ import Modal from './components/Modal';
 import Cards from './components/Cards';
 import { dad_API_Header, dad_API_URL } from './utils/DadJokesAPI';
 import { byCategoryRequest, categoriesRequest, chuck_API_URL, freeRequest, randomRequest } from './utils/ChuckNorrisAPI';
-import Spinner from './components/Spinner';
 import Footer from './components/Footer';
 
 
@@ -141,6 +140,7 @@ function App() {
   return (
 
     <ThemeProvider theme={theme}>
+
       <Responsive style={{marginBottom: '3rem'}}>
 
         <div className="search_container">
