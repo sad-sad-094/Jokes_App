@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { cyan } from '@mui/material/colors';
 
 function Modal() {
 
@@ -28,13 +29,13 @@ function Modal() {
         aria-describedby="alert-dialog-description"
       >
 
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id="modalTittle" sx={{ color: cyan[600] }}>
           {"Welcome to 'Get Your Joke' app!"}
         </DialogTitle>
 
         <DialogContent>
 
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="modalBody">
             Here, you'll have two options to get your joke, one from ICanHazDadJoke and other one from ChuckNorris.io.
             If you want a Dad Joke one, you just need to click the 'Dad Joke' button. Instead you want a Chuck one, first click the 'Chuck Norris' button, then you'd choose if you wants a random joke, if you want random one from a specific category or if you want  a free text search for a joke. For this, please click the correct button and complete the actions.
           </DialogContentText>
@@ -43,7 +44,7 @@ function Modal() {
 
         <DialogActions>
 
-          <Button onClick={handleClose}>
+          <Button id="startPage" onClick={handleClose}>
             Start
           </Button>
 
