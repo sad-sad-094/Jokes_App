@@ -11,8 +11,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { cyan } from '@mui/material/colors';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 
 import './styles/Main.scss';
@@ -30,14 +28,6 @@ function App() {
   const [hiddenOption, setHiddenOption] = useState('hide');
   const [hiddenFreeSearch, setHiddenFreeSearch] = useState('hide');
   const [hiddenSeeCategories, setHiddenSeeCategories] = useState('hide');
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   const [keyword, setKeyword] = useState({ keyword: '' });
   const [categoryRequest, setCategoryRequest] = useState('');
@@ -86,15 +76,12 @@ function App() {
 
   const getCategoriesChuck = () => {
 
-    // setOpen(true);
     axios.get(chuck_API_URL + categoriesRequest)
       .then((response) => {
         setChuckCats(response.data);
-        setOpen(false);
       })
       .catch((error) => {
         console.error(error);
-        setOpen(false);
       });
 
   }
@@ -169,17 +156,7 @@ function App() {
                 setHiddenOption('hide')
                 setHiddenSeeCategories('show')
                 getCategoriesChuck()
-                handleToggle()
               }}>See Categories</Button>
-
-              {/* <Spinner /> */}
-              <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={open}
-                onClick={handleClose}
-                transitionDuration={{ appear: 2000, enter: 1000, exit: 500 }}>
-                <CircularProgress color="inherit" />
-              </Backdrop>
 
               <Button size="medium" variant="contained" sx={{ backgroundColor: cyan[600] }} onClick={() => {
                 setHiddenOption('hide')
