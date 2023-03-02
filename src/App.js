@@ -37,6 +37,11 @@ function App() {
   const chuck = 'Chuck Norris';
   const dad = 'Dad Joke';
 
+  const requestFailure = (error) => {
+    console.alert(error);
+    alert('Request failed, please refresh your browser and try again.');
+  }
+
   const writeJokes = (joke, source) => {
     setJokesList([
       ...jokesList,
@@ -57,7 +62,7 @@ function App() {
         writeJokes(response.data.joke, dad);
       })
       .catch((error) => {
-        console.error(error);
+        requestFailure(error);
       });
 
   }
@@ -69,7 +74,7 @@ function App() {
         writeJokes(response.data.value, chuck);
       })
       .catch((error) => {
-        console.error(error);
+        requestFailure(error);
       });
 
   }
@@ -81,7 +86,7 @@ function App() {
         setChuckCats(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        requestFailure(error);
       });
 
   }
@@ -98,7 +103,7 @@ function App() {
         writeJokes(response.data.value, chuck);
       })
       .catch((error) => {
-        console.error(error);
+        requestFailure(error);
       });
   }
 
@@ -119,7 +124,7 @@ function App() {
         writeJokes(list[selected].value, chuck);
       })
       .catch((error) => {
-        console.error(error);
+        requestFailure(error);
       });
 
   }
